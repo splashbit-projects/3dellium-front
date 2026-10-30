@@ -136,14 +136,19 @@ const AssistanceForm = ({ type = 'default' }) => {
         </div>
 
         <input type="hidden" {...register('type')} value={type} />
-        <ReCaptcha
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-          onChange={onCaptchaHandle}
-        />
+        {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+          <ReCaptcha
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+            onChange={onCaptchaHandle}
+          />
+        ) : null}
         <button
           className={styles.submit}
           type="submit"
-          disabled={!isCaptchaVerified}
+          disabled={
+            Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) &&
+            !isCaptchaVerified
+          }
         >
           <span>Send</span>
           <span>
